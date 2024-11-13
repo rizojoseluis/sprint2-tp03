@@ -14,10 +14,16 @@ class SuperHeroRepository extends IRepository {
         const query = { [atributo ]: new RegExp (valor, 'i' ) };
         return await SuperHero.find (query);
     }
-    async obtenerMayoresDe30(){
-        return await SuperHero.find ({ edad : { $gt : 30 }}); /* planetaOrigen : 'Tierra' ,
-        poderes: {$size: { $gte : 2 }} }) */
-    }
+
+    async obtenerMayoresDe30() { 
+        return await SuperHero.find({ edad: { $gt: 30 }, 
+            planetaOrigen: 'Tierra', 
+            $and: [             
+                { poderes: { $exists: true, $type: "array" } }, // Verifica que "poderes" sea un arreglo
+                                   { $expr: { $gte: [{ $size: "$poderes" }, 2] } } // Condición de tamaño mínimo
+               ]
+            /* poderes: { $size: 2 } */
+         })} 
 }
 
 export default new SuperHeroRepository();

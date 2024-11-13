@@ -50,7 +50,9 @@ export async function buscarSuperheroesPorAtributoController(req, res) {
 
 export async function obtenerSuperheroesMayoresDe30Controller(req, res) {
     try {
+        console.log("Iniciando búsqueda de superhéroes mayores de 30");
         const superheroes = await obtenerSuperheroesMayoresDe30();
+        console.log("Superhéroes mayores de 30 encontrados", superheroes); 
         res.send(renderizarListaSuperheroes(superheroes));
     } catch (error) {
         res.status(400).send({ mensaje: "Error al obtener los superhéroes mayores de 30" });
